@@ -1,7 +1,6 @@
-const userModel=require('../models/user.model') // Importing the user model to interact with the database user se related operations perform karne ke liye user model ko import kiya gaya hai. Isse hum database me user create, read, update, delete (CRUD) operations perform kar sakte hain.
-const userService=require('../services/user.service') // Importing the user service to handle business logic related to user operations. User se related business logic ko handle karne ke liye user service ko import kiya gaya hai. Isse hum user se related complex operations ko service layer me implement kar sakte hain, jisse controller clean aur maintainable rahe.
-const {validationResult}=require('express-validator') // Express-validator se validationResult function ko import kiya gaya hai, jisse hum request ke validation results ko check kar sakte hain aur agar validation fail hota hai to appropriate response bhej sakte hain.
-
+const userModel=require('../models/user.model')
+const userService=require('../services/user.service') 
+const {validationResult}=require('express-validator') 
 
 
 
@@ -15,13 +14,33 @@ module.exports.registerUser=async(req,res)=>{
 
     const {fullname , email,password}=req.body;
     const hashPassword=await userModel.hashPassword(password);
-    const user = await userService.createUser({
-        firstname:fullname.firstname,
+    const user = await userService.createUser({  // User service ke createUser function ko call karke ek naya user create kiya ja raha hai.
+        firstname:fullname.firstname, // Isse hum user service ke createUser function me directly in parameters ke through access kar sakte hain. 
         lasrname:fullname.lastname,
         email,
         password:hashPassword
 
     });
-    const token=user.generateAuthToken();
+    const token=user.generateAuthToken();                                     //token
     res.status(201).json({user,token})
 } 
+
+module.exports.loginUser=async(req,res)=>{
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
+       }
+       const {email,password}=req.body;
+       const user=await userModel.findOne({email}).select("+password");    //user
+       if(!user){
+        return res.status(401).json({message:"Invalid email or password"});
+       }
+
+       const isMatch=await user.comparePassword(password);
+       if(!isMatch){
+        return res.status(401).json({message:"Invalid email or password"});
+       }
+       const token=user.generateAuthToken();                             //token
+       res.status(200).json({user,token})
+
+}
