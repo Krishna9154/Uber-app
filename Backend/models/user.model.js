@@ -26,7 +26,7 @@ const userSchema=mongoose.Schema({
     password:{
         type:String,
         require:true,
-        select:false
+        select:false        //Password normal queries me mat bhejna
     },
 
     socketid:{
@@ -35,7 +35,7 @@ const userSchema=mongoose.Schema({
 })
 
 userSchema.methods.generateAuthToken=function(){
-    const token=jwt.sign({_id:this._id},process.env.JWT_SECRET_KEY)
+    const token=jwt.sign({_id:this._id},process.env.JWT_SECRET_KEY,{expiresIn:'1d'})
     return token
 }
 
