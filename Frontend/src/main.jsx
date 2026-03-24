@@ -4,13 +4,16 @@ import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import Usercontex from './Contex/Usercontex.jsx'
+import  Captaincontex  from './Contex/Captaincontex.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Usercontex>
-      <BrowserRouter>
-      <App />
-    </BrowserRouter>
-    </Usercontex>
+    <Captaincontex>    
+      <Usercontex>
+       <BrowserRouter>
+        <App />
+      </BrowserRouter>
+     </Usercontex>
+    </Captaincontex>   
   </StrictMode>,
 )

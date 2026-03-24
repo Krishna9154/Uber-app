@@ -14,12 +14,12 @@
 
 # Contex 
 1. make folder {Contex}=> inside this all contex are present
-1. wrap <app /> uss context file se jha contex create kar rha
+2. wrap <app /> uss context file se jha contex create kar rha
   <StrictMode>
     <Usercontex>
       <BrowserRouter>
       <App />
-    </BrowserRouter>
+      </BrowserRouter>
     </Usercontex>
   </StrictMode>
 
@@ -39,3 +39,106 @@
 5. Now Use the contex in any  children
   a. const data=useContext(UserDatacontex)
 
+# Backend to Frontend Flow
+1. npm i axios => kyuki data backend me bejna he
+2. backend se response ayega {user or token}
+3. abb uss User ko hume Frontend ke children me pass karna he 
+4. import karege {UserDataContex}
+   a. const {User, setUser} = React.useContext(UserDatacontex)
+   b. setUser(data.user)
+5. Usercontex ka use karke usme User ko set kar dege 
+6. Then navigate kar dege /Home pe
+  a. const navigate =useNavigate()
+  b. navigate('/home')
+
+
+# Status code
+1. 200=> HTTP Status Code 200 = OK ✅
+  a. Request successfully complete ho gayi
+  b. Server ne jo tumne manga tha, vo sahi se return kar diya
+
+2. 201=> HTTP Status Code 201 = Created 🆕
+    ➡️ Request successful rahi
+    ➡️ Server ne naya resource create kar diya
+
+# Protectct the routes in fronted
+1. Create file UserProtectedWrapper.jsx
+2. token dek browser pe he ya nhi agar nhi he to login route pe bej de  agar he to 
+3. return <> {children}</>
+4. to isse ye rhega agar token he fronted pe tab hi me home route pe ja sakuga agar nhi to return se phele mr if condition ki wgha se redirect ho jauga login page pe
+5.  imp thing jiss page ko protected karna he use 
+        <Route path='/home'  element={
+          <UserProtectedWrapper>
+            <Home />
+          </UserProtectedWrapper>     
+        }/>
+
+
+# Import React things
+1. import React ,{useContext} from 'react'
+   a. const {User, setUser} = `useContext`(UserDatacontex)
+
+2. import React, { useState } from 'react'
+   a.  const {User, setUser} = `React.useContext`(UserDatacontex)
+
+# UseNavigate 
+ans. Action pe jaana ho → useNavigate
+1. import {useNavigate} from 'react-router-dom'
+2. const navigate=useNavigate();
+3. navigate('/login');
+Use:
+button click
+form submit
+API success ke baad
+
+4. <Navigate /> =>"Condition pe redirect karna ho → <Navigate /> ye ek Component hota hai
+                import {Navigate} from 'react-router-dom'
+       return `<Navigate to="/login" />`
+Use:
+render ke time condition check
+protected route
+auth check
+Matlab direct UI return me
+
+# Wrap concept
+1. Wrap karna” = kisi component ke andar doosra component daalna
+<UserProtectedWrapper>
+  <Home />
+</UserProtectedWrapper>
+     a.UserProtectedWrapper = wrapper (bahar wala)
+     b.<Home /> = children (andar wala)
+
+2. React automatically jo bhi component ke andar likhte ho, wo children prop me aa jata hai
+           const UserProtectedWrapper = ({ children }) => {
+             console.log(children);
+           };
+      Output :<Home />
+
+
+# LogOut Route in Frontend
+1. axios.get se backend me hum req bejege `/users/logout`
+2. is se sath hum header bhi munally bejte he headers:{Authorization:`Bearer ${localStorage.getItem('token') }`}  yha local storege se token utha ke hum bejte he backend me 
+3. Then local storage se hum remove kar dete he token
+4. Navigate kra dete he login page pe  
+
+🔹 Cookies vs Headers (Auth Token)
+
+🟢 Cookies
+Backend set karta hai (res.cookie)
+Browser automatically har request me bhejta hai
+Backend se read hota hai → req.cookies
+Delete bhi backend karta hai → res.clearCookie()
+Secure option: httpOnly (frontend access nahi kar sakta)
+
+👉 Use case: secure authentication (JWT in cookies)
+
+🔴 Headers (Authorization)
+Frontend manually bhejta hai
+Format:`Authorization: Bearer <token>`
+
+Backend read karta hai → req.headers.authorization
+Token usually localStorage me store hota hai
+Logout = frontend se token remove
+
+👉 Use case: APIs, mobile apps, simple auth
+        

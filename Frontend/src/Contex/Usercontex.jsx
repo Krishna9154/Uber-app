@@ -13,7 +13,7 @@ const Usercontex = ({children}) => {
     });
   return (
     <div>
-        <UserDatacontex.Provider value={[User,setUser]}>
+        <UserDatacontex.Provider value={{User,setUser}}>
             {children}
         </UserDatacontex.Provider>
     </div>
