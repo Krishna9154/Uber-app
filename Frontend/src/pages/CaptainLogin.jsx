@@ -6,7 +6,6 @@ import { CaptainDatacontex } from '../Contex/Captaincontex';
 const CaptainLogin = () => {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
-  const [captainData, setcaptainData] = useState({});
 
   const {Captain,setCaptain}= React.useContext(CaptainDatacontex);
   const navigate=useNavigate();
@@ -17,6 +16,7 @@ const CaptainLogin = () => {
       email:email,
       password:password
     }
+    
     const response= await axios.post(`${import.meta.env.VITE_BASE_URL}/captain/login`,captainData)
 
     // console.log(response);
@@ -25,7 +25,7 @@ const CaptainLogin = () => {
       const data =response.data;  
       setCaptain(data.Captain)
       localStorage.setItem('token',data.token)
-      navigate('/home')
+      navigate('/captain-home')
     }
 
     setemail('')

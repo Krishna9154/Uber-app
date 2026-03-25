@@ -1,16 +1,3 @@
-# Git Repo Clone
-1. git clone {repo Link}
-
-# Create a folder 
-1. npm create vite@latest
-2. npm install tailwindcss @tailwindcss/vite
-3. see Tailwind website
-
-# folder
-
-1. inside src
-  a. Create Pages folder => Home.jsx
-  b. 
 
 # Contex 
 1. make folder {Contex}=> inside this all contex are present
@@ -141,4 +128,46 @@ Token usually localStorage me store hota hai
 Logout = frontend se token remove
 
 👉 Use case: APIs, mobile apps, simple auth
-        
+
+# Frontend Questions
+
+Q. Component body me API call
+ans. galat agar vo component render hoga to vo api dubara se hit karega isi liye hum useeffect ka use karte he taki api dubara hit na ho  useEffect(()={   ...   }) 
+
+Q. Context Api 
+ans. import `{CaptainDatacontex}` from '../Contex/Captaincontex'
+
+
+# signup flow {axios, context api, navigate}
+1. user form fill karta he (name,age,email, password)
+2. frontend API call (axios)
+3. backend verify and Create karta he db me user  and res bejta he
+4. res (data, token)
+5. token -> localstorage me store
+6. user -> dashboard pe navigate `wrap with protected route`
+
+
+# Login Flow {axios, context api, navigate}
+1. user form fill karta he (email, password)
+2. frontend API call (axios)
+3. backend verify karta he and res bejta he
+4. res (data, token)
+5. token -> localstorage me store
+6. user -> dashboard pe navigate  `wrap with protected route`
+
+# LogOut Flow {axios, navigate}
+1. logout button click
+2. API call (token ke sath)
+3. backend token invalidate karta he aur res bejta he 
+4. res === 200 , LocalStorage clear
+5. login page pe navigate
+
+# Protected Wrapper  {axios, context api, navigate}
+1. User kisi Protected route pe jata he (/home)
+2. wrapper run hota he
+3. wrapper token check karta he (localStorage se)
+4. agar token nhi (!token) login page pe redirect
+5. agar token hai -> backend ko bejta he verify ke liye (/profile me beja) header ke through
+6. backend verify karta he res 200 hit hua data set kar dete context api me
+7. valid token  -> page render (children show)
+8. invalid token -> token remove + login pe redirect

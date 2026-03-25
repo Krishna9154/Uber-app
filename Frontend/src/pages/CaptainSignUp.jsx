@@ -9,7 +9,6 @@ const CaptainSignUp = () => {
   const [lastname, setlastname] = useState('');
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
-  const [captainData, setcaptainData] = useState({});
   const [color, setcolor] = useState('');
   const [plate, setplate] = useState('');
   const [capacity, setcapacity] = useState('');
@@ -48,8 +47,8 @@ const CaptainSignUp = () => {
     const data = response.data;
     setCaptain(data.captain);
     localStorage.setItem('token', data.token);
-    navigate('/captain-login');
-    console.log(data); // ✅ success data
+    navigate('/captain-home');
+    // console.log(data); // ✅ success data
   }
 
 } catch (err) {
@@ -67,9 +66,6 @@ const CaptainSignUp = () => {
     setvechicleType('')
     // console.log(captainData);
   }
-
-
-
 
   return (
      <div className='p-8 h-screen flex flex-col justify-between'>
@@ -151,7 +147,7 @@ const CaptainSignUp = () => {
             onChange={(e)=>{
               setcapacity(e.target.value)
             }}
-            type="text" 
+            type="number" 
             placeholder='Capacity' 
             className=' bg-[#ebe7e8]  p-2 w-full border-transparent rounded mb-2 placeholder:text-l text-base' />
     
@@ -163,6 +159,7 @@ const CaptainSignUp = () => {
             type="text" 
             placeholder='Vechile Type' 
             className=' bg-[#ebe7e8]  p-2 w-full border-transparent rounded mb-2 placeholder:text-l text-base' />
+
     
             </div>
 
