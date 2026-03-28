@@ -58,5 +58,35 @@ e. bg-bottom=>
 # Line Height
 1. `leading-tight`=> 
 
+# Position
+1. position: relative => Apni normal position pe rehta hai , Reference banata hai for absolute children
+2. position: absolute => Normal flow se bahar ho jata hai , Space occupy nahi karta , Nearest relative parent ke according move karta hai
+3. Golden Rule
+👉 absolute child hamesha
+➡️ nearest relative parent ke respect me position hota hai
+5. Use Case
+   a. Element ko upar chipkana => absolute
+   b. Usko control karna => parent me relative
 
+
+# Opacity 
+1. opacity-1 => element visible 
+2. opacity-0 => element hide
+
+# Translate
+ans. Translate = kisi element ko hilana (move karna)
+1. translate-x → left/right move {translate-x-10} right me shift ho jayega  {-translate-x-10} opposite direction me move
+2. translate-y → upar/neeche move
+
+🔹 Sabse important baat ⚡
+    👉 Ye original jagah nahi badalta => jagah same rehti hai
+    👉 Sirf dikhne me move hota hai => bas element slide ho jata hai
+
+# Border
+1. `border` => Default border 1px border,gray color
+2. `border-2` => Border thickness (size)
+3. `border-2` border-red-500 => border color
+4. `border-t-2` => Specific side border
+5. `border rounded-lg` => Rounded border
+   
 
