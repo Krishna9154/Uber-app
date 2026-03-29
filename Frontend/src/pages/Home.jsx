@@ -4,6 +4,8 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap'
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../Components/LocationSearchPanel';
+import VechilePanel from '../Components/VehicalPanel'
+import ConfirmRide from '../Components/ConfirmRide';
 
 const Home = () => {
 
@@ -11,9 +13,11 @@ const Home = () => {
   const [Destination, setDestination] = useState('');
   const [panelOpen, setPanelOpen] = useState(false)
   const [vechilePanelOpen, setvechilePanelOpen] = useState(false);
+  const [Confirmride, setConfirmride] = useState(false);
   const panelRef = useRef(null)
   const panelCloseRef = useRef(null)
   const vehicalPannelRef = useRef(null)
+  const ConfirmRideRef=useRef(null)
 
   const submithndlier = (e) => {
     e.preventDefault();
@@ -56,6 +60,19 @@ const Home = () => {
     }
   }, [vechilePanelOpen])
 
+  useGSAP(()=>{
+    if(Confirmride){
+      gsap.to(ConfirmRideRef.current,{
+        transform:'translateY(0)'
+      })
+    }else {
+      gsap.to(ConfirmRideRef.current, {
+        transform: 'translateY(100%)'
+      })
+    }
+
+  },[Confirmride])
+
 
   return (
     <div className='h-screen w-screen relative overflow-hidden'>
@@ -95,41 +112,11 @@ const Home = () => {
         </div>
 
         <div ref={vehicalPannelRef} className=' bg-white fixed z-10 w-full h-90 p-2 flex flex-col gap-2 translate-y-full '>
+        <VechilePanel setConfirmride ={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} />
+        </div>
 
-          <h2 className='w-full flex justify-center '><i className=" text-gray-300 flex justify-center text-2xl ri-skip-down-line w-[80%] " onClick={() => { setvechilePanelOpen(false) }}></i></h2>
-          <h1 className='text-xl font-semibold mb-2'>Choose a Vehicle </h1>
-
-          <div className='px-2 flex items-center border-2 border-gray-100 active:border-black rounded-xl'>
-            <img className='h-20' src="https://i.pinimg.com/originals/8d/21/7b/8d217b1000b642005fea7b6fd6c3d967.png" />
-            <div className=' p-1 w-full  leading-tight'>
-              <h2 className='font-medium'>UberGo <i className="ri-user-fill">4</i></h2>
-              <h4>2 mins away</h4>
-              <span className='text-[12px] text-gray-400'>Affordable, compact rides</span>
-            </div>
-            <h2 className='font-medium text-l p-1'>₹193.20</h2>
-          </div>
-
-          <div className='px-2 gap-2  flex flex-row items-center border-2 border-gray-100 active:border-black rounded-xl'>
-            <img className='h-18 p-3' src="https://cn-geo1.uber.com/image-proc/crop/resizecrop/udam/format=auto/width=552/height=552/srcb64=aHR0cHM6Ly90Yi1zdGF0aWMudWJlci5jb20vcHJvZC91ZGFtLWFzc2V0cy85NTM4NTEyZC1mZGUxLTRmNzMtYmQ1MS05Y2VmZjRlMjU0ZjEucG5n" />
-            <div className=' p-1 w-full  leading-tight'>
-              <h2 className='font-medium'>Moto <i className="ri-user-fill">1</i></h2>
-              <h4>3 mins away</h4>
-              <span className='text-[12px] text-gray-400'>Affordable, motercycle rides</span>
-            </div>
-            <h2 className='font-medium text-l p-1'>₹65</h2>
-          </div>
-
-          <div className='px-1  flex flex-row items-center border-2 border-gray-100 active:border-black rounded-xl'>
-            <img className='h-15 p-2' src="https://clipart-library.com/2023/Uber_Auto_312x208_pixels_Mobile.png" />
-            <div className=' p-1 w-full  leading-tight'>
-              <h2 className='font-medium'>UberGo <i className="ri-user-fill">4</i></h2>
-              <h4>2 mins away</h4>
-              <span className='text-[12px] text-gray-400'>Affordable, compact rides</span>
-            </div>
-            <h2 className='font-medium text-l p-1'>₹118.86</h2>
-          </div>
-
-
+        <div ref={ConfirmRideRef} className=' bg-white fixed z-10 w-full h-90 p-2 flex flex-col gap-2 translate-y-full '>
+          <ConfirmRide setConfirmride ={setConfirmride}/>
         </div>
       </div>
     </div>
