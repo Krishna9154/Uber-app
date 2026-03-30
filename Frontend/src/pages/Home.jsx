@@ -6,6 +6,7 @@ import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../Components/LocationSearchPanel';
 import VechilePanel from '../Components/VehicalPanel'
 import ConfirmRide from '../Components/ConfirmRide';
+import LookingForDriver from '../Components/LookingForDriver';
 
 const Home = () => {
 
@@ -14,10 +15,12 @@ const Home = () => {
   const [panelOpen, setPanelOpen] = useState(false)
   const [vechilePanelOpen, setvechilePanelOpen] = useState(false);
   const [Confirmride, setConfirmride] = useState(false);
+  const [LookingFordriver, setLookingForDriver] = useState(false);
   const panelRef = useRef(null)
   const panelCloseRef = useRef(null)
   const vehicalPannelRef = useRef(null)
   const ConfirmRideRef=useRef(null)
+  const LookingForDriverRef=useRef(null)
 
   const submithndlier = (e) => {
     e.preventDefault();
@@ -73,6 +76,19 @@ const Home = () => {
 
   },[Confirmride])
 
+    useGSAP(()=>{
+    if(LookingFordriver){
+      gsap.to(LookingForDriverRef.current,{
+        transform:'translateY(0)'
+      })
+    }else {
+      gsap.to(LookingForDriverRef.current, {
+        transform: 'translateY(100%)'
+      })
+    }
+
+  },[LookingFordriver])
+
 
   return (
     <div className='h-screen w-screen relative overflow-hidden'>
@@ -115,8 +131,12 @@ const Home = () => {
         <VechilePanel setConfirmride ={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} />
         </div>
 
-        <div ref={ConfirmRideRef} className=' bg-white fixed z-10 w-full h-90 p-2 flex flex-col gap-2 translate-y-full '>
-          <ConfirmRide setConfirmride ={setConfirmride}/>
+        <div ref={ConfirmRideRef} className=' bg-white fixed z-10 w-full h-115 p-2 flex flex-col gap-2 translate-y-full '>
+          <ConfirmRide setConfirmride ={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} setLookingForDriver={setLookingForDriver} />
+        </div>
+
+        <div ref={LookingForDriverRef} className=' bg-white fixed z-10 w-full h-100 p-2 flex flex-col gap-2 translate-y-full '>
+          <LookingForDriver setLookingForDriver={setLookingForDriver} />
         </div>
       </div>
     </div>

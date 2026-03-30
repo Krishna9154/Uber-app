@@ -61,7 +61,7 @@ const UserLogin = () => {
         placeholder='password' 
         className=' bg-[#ebe7e8]  p-2 w-full border-transparent rounded placeholder:text-base text-lg' />
 
-        <button to={'/loin'} className=' block w-full bg-black text-white text-center  p-3 rounded mt-4'>Login</button>
+        <button  className=' block w-full bg-black text-white text-center  p-3 rounded mt-4'>Login</button>
       </form>
       <p className='text-center mt-2'>New here? <Link to={'/signup'} className='text-blue-500 '>Create new Account</Link></p>
       </div>

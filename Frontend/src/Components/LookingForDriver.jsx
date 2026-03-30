@@ -1,13 +1,10 @@
 import React from 'react'
 
-const ConfirmRide = (props) => {
+const LookingForDriver = (props) => {
   return (
-    <div className=' '>
-           
-           <h2 className='w-full flex justify-end '><i className=" text-gray-300 flex justify-center text-2xl ri-skip-down-line w-[80%] " onClick={() => { props.setConfirmride(false) }}></i> <i className=" text-gray-300 flex justify-center text-2xl ri-close-circle-fill  w-10  " onClick={() => { props.setvechilePanelOpen(false)
-            props.setConfirmride(false)
-            }}></i></h2>
-          <h1 className='text-xl font-bold '>Confirm Your Ride</h1>
+    <div>
+        <h2 className='w-full flex justify-end '> <i onClick={()=>{props.setLookingForDriver(false)}} className=" text-gray-300 flex justify-center text-2xl ri-close-circle-fill  w-10  "></i></h2>
+          <h1 className='text-xl font-bold '>Looking For Driver</h1>
 
           <div className='w-full flex justify-center'>
             <img className='h-30 ' src="https://i.pinimg.com/originals/8d/21/7b/8d217b1000b642005fea7b6fd6c3d967.png" />
@@ -37,11 +34,9 @@ const ConfirmRide = (props) => {
             </div> 
           </div>
 
-          <button onClick={()=>{props.setLookingForDriver(true) 
-            props.setConfirmride(false)
-          }} className='text-lg text-center text-white bg-green-600 rounded w-full p-1 mt-3'>Confirm</button>
+
     </div>
   )
 }
 
-export default ConfirmRide
+export default LookingForDriver
