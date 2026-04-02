@@ -59,8 +59,23 @@ e. bg-bottom=>
 1. `leading-tight`=> 
 
 # Position
-1. position: relative => Apni normal position pe rehta hai , Reference banata hai for absolute children
-2. position: absolute => Normal flow se bahar ho jata hai , Space occupy nahi karta , Nearest relative parent ke according move karta hai
+Jab tu position: fixed lagata hai: 👉 Element normal document flow se bahar nikal jata hai
+Q. Normal flow kya hota hai?
+Normally sab elements ek ke niche ek lagte hain, Har element apni space occupy karta hai
+
+👉 Parent pe relative + child pe absolute
+✔ Child flow se bahar aa jata hai
+✔ Parent flow me hi rehta hai
+✔ parent ke respect me move karta hai {`child`}
+
+Fixed lagate hi:
+❌ wo apni original space leave kar deta hai
+❌ browser uske liye jagah reserve nahi karta
+👉 isliye dusre elements uski jagah le lete hain
+
+
+1. position: `relative` => Apni normal position pe rehta hai , Reference banata hai for absolute children
+2. position: `absolute` => Normal flow se bahar ho jata hai , Space occupy nahi karta , Nearest relative parent ke according move karta hai
 3. Golden Rule
 👉 absolute child hamesha
 ➡️ nearest relative parent ke respect me position hota hai

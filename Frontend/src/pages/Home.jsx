@@ -7,6 +7,7 @@ import LocationSearchPanel from '../Components/LocationSearchPanel';
 import VechilePanel from '../Components/VehicalPanel'
 import ConfirmRide from '../Components/ConfirmRide';
 import LookingForDriver from '../Components/LookingForDriver';
+import WaitingForDriver from '../Components/WaitingForDriver';
 
 const Home = () => {
 
@@ -16,11 +17,13 @@ const Home = () => {
   const [vechilePanelOpen, setvechilePanelOpen] = useState(false);
   const [Confirmride, setConfirmride] = useState(false);
   const [LookingFordriver, setLookingForDriver] = useState(false);
+  const [watingForDriver, setwatingForDriver] = useState(false);
   const panelRef = useRef(null)
   const panelCloseRef = useRef(null)
   const vehicalPannelRef = useRef(null)
   const ConfirmRideRef=useRef(null)
   const LookingForDriverRef=useRef(null)
+  const watingForDriverRef =useRef(null)
 
   const submithndlier = (e) => {
     e.preventDefault();
@@ -89,6 +92,19 @@ const Home = () => {
 
   },[LookingFordriver])
 
+  useGSAP(()=>{
+    if(watingForDriver){
+      gsap.to(watingForDriverRef.current,{
+        transform:'translateY(0)'
+      })
+    }else{
+      gsap.to(watingForDriverRef.current,{
+        transform:'translateY(100)'
+      })
+
+    }
+  },[watingForDriver])
+
 
   return (
     <div className='h-screen w-screen relative overflow-hidden'>
@@ -137,6 +153,10 @@ const Home = () => {
 
         <div ref={LookingForDriverRef} className=' bg-white fixed z-10 w-full h-100 p-2 flex flex-col gap-2 translate-y-full '>
           <LookingForDriver setLookingForDriver={setLookingForDriver} />
+        </div>
+
+        <div ref={watingForDriverRef}  className=' bg-white fixed z-10 w-full h-80 p-2 flex flex-col gap-2 translate-y-full'>
+          <WaitingForDriver setwatingForDriver={setwatingForDriver} />
         </div>
       </div>
     </div>
