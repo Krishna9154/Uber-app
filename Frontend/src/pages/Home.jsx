@@ -8,6 +8,7 @@ import VechilePanel from '../Components/VehicalPanel'
 import ConfirmRide from '../Components/ConfirmRide';
 import LookingForDriver from '../Components/LookingForDriver';
 import WaitingForDriver from '../Components/WaitingForDriver';
+import Maps from '../Components/Maps'
 
 const Home = () => {
 
@@ -21,15 +22,21 @@ const Home = () => {
   const panelRef = useRef(null)
   const panelCloseRef = useRef(null)
   const vehicalPannelRef = useRef(null)
-  const ConfirmRideRef=useRef(null)
-  const LookingForDriverRef=useRef(null)
-  const watingForDriverRef =useRef(null)
+  const ConfirmRideRef = useRef(null)
+  const LookingForDriverRef = useRef(null)
+  const watingForDriverRef = useRef(null)
 
   const submithndlier = (e) => {
     e.preventDefault();
+
+
+
+
+    
     // console.log(Pickup,Destination);
     setPickup('')
     setDestination('')
+    
   }
 
   useGSAP(function () {
@@ -66,59 +73,63 @@ const Home = () => {
     }
   }, [vechilePanelOpen])
 
-  useGSAP(()=>{
-    if(Confirmride){
-      gsap.to(ConfirmRideRef.current,{
-        transform:'translateY(0)'
+  useGSAP(() => {
+    if (Confirmride) {
+      gsap.to(ConfirmRideRef.current, {
+        transform: 'translateY(0)'
       })
-    }else {
+    } else {
       gsap.to(ConfirmRideRef.current, {
         transform: 'translateY(100%)'
       })
     }
 
-  },[Confirmride])
+  }, [Confirmride])
 
-    useGSAP(()=>{
-    if(LookingFordriver){
-      gsap.to(LookingForDriverRef.current,{
-        transform:'translateY(0)'
+  useGSAP(() => {
+    if (LookingFordriver) {
+      gsap.to(LookingForDriverRef.current, {
+        transform: 'translateY(0)'
       })
-    }else {
+    } else {
       gsap.to(LookingForDriverRef.current, {
         transform: 'translateY(100%)'
       })
     }
 
-  },[LookingFordriver])
+  }, [LookingFordriver])
 
-  useGSAP(()=>{
-    if(watingForDriver){
-      gsap.to(watingForDriverRef.current,{
-        transform:'translateY(0)'
+  useGSAP(() => {
+    if (watingForDriver) {
+      gsap.to(watingForDriverRef.current, {
+        transform: 'translateY(0)'
       })
-    }else{
-      gsap.to(watingForDriverRef.current,{
-        transform:'translateY(100)'
+    } else {
+      gsap.to(watingForDriverRef.current, {
+        transform: 'translateY(100%)'
       })
 
     }
-  },[watingForDriver])
+  }, [watingForDriver])
 
 
   return (
-    <div className='h-screen w-screen relative overflow-hidden'>
+    <div className='h-screen w-screen relative'>
 
-      <img className='h-full w-full ' src={bg} />
+      <div className="absolute inset-0 z-0 pointer-auto">
+        <Maps />
+      </div>
+
+      {/* <img className='h-full w-full ' src={bg} /> */}
       <img className='w-25 absolute top-2 left-2 ' src="https://download.logo.wine/logo/Uber/Uber-Logo.wine.png" />
 
-      <div className='flex flex-col justify-end top-0  w-full h-screen absolute'>
-        <div className=' px-5   h-48 w-full bg-white  relative   rounded-2xl'>
+      <div className='flex flex-col justify-end top-0  w-full h-screen absolute pointer-events-none'>
+        <div className=' px-5   h-55 w-full bg-white  relative   rounded-2xl'>
 
-          <div className='  flex justify-between w-full relative mt-2'><h4 className='text-xl font-medium'>Find a trip</h4><i ref={panelCloseRef} className="text-2xl 
+          <div className='  flex justify-between w-full relative mt-2 pointer-events-auto'><h4 className='text-xl font-medium'>Find a trip</h4><i ref={panelCloseRef} className="text-2xl 
           text-gray-400 ri-skip-down-line" onClick={() => { setPanelOpen(false) }}></i></div>
 
-          <form className='' onSubmit={(e) => { submithndlier(e) }}>
+          <form className='pointer-events-auto' onSubmit={(e) => { submithndlier(e) }}>
             <div className="line absolute h-18 w-1 top-[58%] -translate-y-1/2 left-8 bg-gray-700 rounded-full"></div>
             <input className='  px-10 py-3 mt-4 rounded bg-[#eeee] w-full border-0 focus:border-2 focus:border-yellow-500 outline-none text-base'
               type=" text"
@@ -136,26 +147,29 @@ const Home = () => {
               onClick={() => {
                 setPanelOpen(true)
               }} />
+
+            <button  className='text-lg text-center text-white bg-green-600 rounded w-full p-1 mt-4 '>Confirm</button>
+
           </form>
         </div>
 
-        <div ref={panelRef} className='h-0 bg-white overflow-hidden w-full '>
+        <div ref={panelRef} className='h-0 bg-white overflow-hidden w-full pointer-events-auto '>
           <LocationSearchPanel setPanelOpen={setPanelOpen} setvechilePanelOpen={setvechilePanelOpen} />
         </div>
 
-        <div ref={vehicalPannelRef} className=' bg-white fixed z-10 w-full h-90 p-2 flex flex-col gap-2 translate-y-full '>
-        <VechilePanel setConfirmride ={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} />
+        <div ref={vehicalPannelRef} className=' bg-white fixed z-10 w-full h-90 p-2 flex flex-col gap-2 translate-y-full pointer-events-auto'>
+          <VechilePanel setConfirmride={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} />
         </div>
 
-        <div ref={ConfirmRideRef} className=' bg-white fixed z-10 w-full h-115 p-2 flex flex-col gap-2 translate-y-full '>
-          <ConfirmRide setConfirmride ={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} setLookingForDriver={setLookingForDriver} />
+        <div ref={ConfirmRideRef} className=' bg-white fixed z-10 w-full h-115 p-2 flex flex-col gap-2 translate-y-full pointer-events-auto '>
+          <ConfirmRide setConfirmride={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} setLookingForDriver={setLookingForDriver} />
         </div>
 
-        <div ref={LookingForDriverRef} className=' bg-white fixed z-10 w-full h-100 p-2 flex flex-col gap-2 translate-y-full '>
+        <div ref={LookingForDriverRef} className=' bg-white fixed z-10 w-full h-100 p-2 flex flex-col gap-2 translate-y-full pointer-events-auto '>
           <LookingForDriver setLookingForDriver={setLookingForDriver} />
         </div>
 
-        <div ref={watingForDriverRef}  className=' bg-white fixed z-10 w-full h-80 p-2 flex flex-col gap-2 translate-y-full'>
+        <div ref={watingForDriverRef} className=' bg-white fixed z-10 w-full h-80 p-2 flex flex-col gap-2 translate-y-full pointer-events-auto'>
           <WaitingForDriver setwatingForDriver={setwatingForDriver} />
         </div>
       </div>

@@ -11,6 +11,8 @@ import CaptainPtotectedWrapper from './pages/CaptainPtotectedWrapper'
 import UserLogOut from './pages/UserLogOut'
 import CaptainLogOut from './pages/CaptainLogOut'
 import Riding from './pages/Riding'
+import CaptainRide from './pages/CaptainRide'
+import "leaflet/dist/leaflet.css";
 
 const App = () => {
 
@@ -24,6 +26,7 @@ const App = () => {
         <Route path='/riding' element={<Riding />} />
         <Route path="/captain-login" element={<CaptainLogin />}/>
         <Route path="/captain-signup" element={<CaptainSignUp />}/>
+        <Route path='/captain-ride' element={<CaptainRide />}/>
 
         <Route path='/home'  element={
           <UserProtectedWrapper>

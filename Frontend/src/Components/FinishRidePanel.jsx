@@ -1,10 +1,11 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
-const RidePopUp = (props) => {
+const FinishRidePanel = (props) => {
   return (
-    <div className='p-3'>
-         <h2 className='w-full flex justify-center '><i className=" text-gray-300 flex justify-center text-2xl ri-skip-down-line w-[80%] " onClick={() => { props.setridePopUp(false) }}></i> </h2>
-          <h1 className='text-2xl font-semibold '>New Ride Avalival !</h1>
+     <div className='p-3 '>
+         <h2 className='w-full flex justify-center '><i className=" text-gray-300 flex justify-center text-2xl ri-arrow-down-wide-line w-[80%] mb-4 " onClick={() => { props.setfinishRide(false) }}></i> </h2>
+          <h1 className='text-2xl font-semibold  mb-6'>Your Ride is Completed</h1>
 
         <div className='flex flex-row justify-between mt-3 bg-yellow-300 p-3 rounded-xl'>
 
@@ -22,7 +23,7 @@ const RidePopUp = (props) => {
         </div>
 
 
-          <div className='flex felx-row w-full px-4 py-2  border-b-2 border-[#eeee] gap-4 items-center mt-6'>
+          <div className='flex felx-row w-full px-4 py-2  border-b-2 border-[#eeee] gap-4 items-center mt-6 mb-4'>
             <h1><i className="ri-map-pin-user-fill text-xl"></i></h1>
             <div className='leading-tight'>
               <h2 className='text-lg font-medium'>562/11-A </h2>
@@ -30,7 +31,7 @@ const RidePopUp = (props) => {
             </div>     
           </div>
 
-          <div className='flex felx-row w-full px-4 py-2  border-b-2 border-[#eeee] gap-4 items-center'>
+          <div className='flex felx-row w-full px-4 py-2  border-b-2 border-[#eeee] gap-4 items-center mb-4'>
             <h1><i className="ri-map-pin-2-fill text-xl"></i></h1>
             <div className='leading-tight'>
               <h2 className='text-lg font-medium'>562/11-A </h2>
@@ -38,7 +39,7 @@ const RidePopUp = (props) => {
             </div>
           </div>
 
-          <div className='flex felx-row w-full px-4 py-2 border-b-2 border-gray-200      gap-4 items-center'>
+          <div className='flex felx-row w-full px-4 py-2 border-gray-200  gap-4 items-center '>
             <h1><i className="ri-money-dollar-box-line text-xl"></i></h1>
             <div className='leading-tight'>
               <h2 className='text-lg font-medium'>₹193.20 </h2>
@@ -46,14 +47,18 @@ const RidePopUp = (props) => {
             </div> 
           </div>
 
-      <div className='flex flex-row justify-between items-center mt-6  w-full'>
-          <button onClick={()=>{props.setridePopUp(false)}} className='text-lg text-center text-white bg-gray-300 rounded w-25 p-1 ml-30'>Ignore</button>
-          <button onClick={()=>{props.setconfirmRidePanel(true)}} className='text-lg text-center text-white  bg-green-600  rounded w-25 p-1 '>Accept</button>
-      </div>
 
+
+
+
+      <div className='flex flex-col justify-between items-center mt-6  w-full'>
+          <Link to={'/captain-home'} className='text-lg text-center text-white  bg-green-600  rounded  p-2 active:scale-95 w-full '>Finish Ride</Link>
+
+          <p className='leading-tight mt-8 text-xs '>Click on finish Ride button if you have completed the payment.</p>
+      </div>
 
     </div>
   )
 }
 
-export default RidePopUp
+export default FinishRidePanel

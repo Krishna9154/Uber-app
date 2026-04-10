@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import Usercontex from './Contex/Usercontex.jsx'
 import  Captaincontex  from './Contex/Captaincontex.jsx'
+import "leaflet/dist/leaflet.css";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
