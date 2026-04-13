@@ -1,10 +1,66 @@
 const mapsservice =require('../services/maps.service')
+const { validationResult } = require("express-validator"); 
 
 
-module.exports.locationTracker =async(req,res)=>{
+module.exports.getCoordinat =async(req,res,next)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
 
-    const {from, to}=req.body;
-    const location = await mapsservice.coordinatesTracker({from , to})
-    res.status(200).json({location})
+    const {address} = req.query;
+
+    try {
+        const coordinates = await mapsservice.mapService(address);
+        if (coordinates) {
+            res.json(coordinates);
+        } else {
+            res.status(404).json({ error: "Coordinates not found" });
+        } 
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while fetching coordinates" });
+    }  
+
+    
+}
+
+
+module.exports.getDistanceTime=async (req,res,next)=>{
+
+    try{
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {origin, destination} = req.query;
+
+    const distacnceTime = await mapsservice.getDistanceTime(origin, destination);
+    if(distacnceTime){
+        res.json(distacnceTime);
+    } else {
+        res.status(404).json({error:"Distance and time not found for the given origin and destination"});   
+
+    } }catch(err){
+        console.log(err);
+        res.status(500).json({error:"An error occurred while fetching distance and time"});
+    }
+}
+
+module.exports.getSuggestions=async (req,res,next)=>{
+    
+    try{
+        const error = validationResult(req)
+        if(!error.isEmpty()){
+            return res.status(400).json({errors: error.array()})
+        }
+        const {input} = req.query;
+        const suggestions = await mapsservice.getSuggestions(input);
+        res.json(suggestions);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error:"An error occurred while fetching suggestions"});
+
+    }
 
 }

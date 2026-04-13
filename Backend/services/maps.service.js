@@ -1,75 +1,78 @@
-const axios = require('axios');
+const axios = require("axios");
+const { response } = require("../app");
 
-module.exports.coordinatesTracker = async ({ from, to }) => {
+module.exports.mapService = async (address) => {
+  console.log(address);
 
-    try {
-        const geoFrom = await axios.get(
-            `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(from)}&format=json`,
-            {
-                headers: {
-                    'User-Agent': 'Krishna-Uber-App/1.0 (krishna@email.com)', // IMPORTANT
-                    'Accept-Language': 'en'
-                },
-                timeout: 5000
-            })
-        const geoTo = await axios.get(
-            `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(to)}&format=json`,
-            {
-                headers: {
-                    'User-Agent': 'Krishna-Uber-App/1.0 (krishna@email.com)', // IMPORTANT
-                    'Accept-Language': 'en'
-                },
-                timeout: 5000
-            })
+  const apiKey = process.env.maps_api_key;
+  const url=`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+  
+  try {
+    const response = await axios.get(url);
+    console.log(response.data);
+
+    if (response.data.status === "OK") {
+      const location = response.data.results[0].geometry.location;
+      
+
+      return {
+        lat: location.lat,
+        lng: location.lng,
+      };
+    } else {
+      throw new Error(response.data.status);
+    }
+  } catch (error) {
+    console.log("Error:", error.message);
+    return null;
+  }
+}
 
 
-        if (geoFrom.data.length && geoTo.data.length) {
-            const fromLat = parseFloat(geoFrom.data[0].lat);
-            const fromLng = parseFloat(geoFrom.data[0].lon);
+  module.exports.getDistanceTime = async (origin, destination) => {
+    if(!origin || !destination){
+      throw new Error("Origin and destination are required");
+    }
+    const apiKey = process.env.maps_api_key;
+    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
 
-            const toLat = parseFloat(geoTo.data[0].lat);
-            const toLng = parseFloat(geoTo.data[0].lon);
+    try{
 
-            //   console.log(fromLat,fromLng,toLat,toLng);
+      const response = await axios.get(url);
+      if(response.data.status === "OK"){
 
-            // const routeRes = await axios.get(
-            //     `https://router.project-osrm.org/route/v1/driving/${encodeURIComponent(fromLng)},${encodeURIComponent(fromLat)};${encodeURIComponent(toLng)},${encodeURIComponent(toLat)}?overview=full&geometries=geojson`
-            // );
-
-            //   console.log(routeRes.data.routes[0].geometry);
-            const mapData = {
-                "fromLat ": fromLat,
-                "fromLng ": fromLng,
-                "toLat ": toLat,
-                "toLng ": toLng,
-                // "geometry": routeRes.data.routes[0]
-            }
-            return mapData;
+        if(response.data.rows[0].elements[0].status === "Zero Results"){
+          throw new Error("No results found for the given origin and destination");
         }
 
+        return response.data.rows[0].elements[0];
+      } else {
+        throw new Error("Unable to fetch distance and time information");
+      }
 
-
-        
-    } catch (err) {
-
-        console.log("Error in API:", err.message);
-        return { data: [] };
-
+    } catch (error) {
+      console.log("Error:", error.message);
+      throw error;
     }
+  }
 
-    //  const geoFrom = await axios.get(
-    //       `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(from)}&format=json`,
-    //       {
-    //           headers: {
-    //               'User-Agent': 'Krishna-Uber-App/1.0 (krishna@email.com)', // IMPORTANT
-    //               'Accept-Language': 'en'
-    //           },
-    //           timeout: 5000
-    //       }
-    //   ).catch(err => {
-    //       console.log("Error in API:", err.message);
-    //       return { data: [] };
-    //   });
+  module.exports.getSuggestions = async (input) => {
+    if(!input){
+      throw new Error("address is required");
+    } 
 
-    //   return geoFrom.data;
-}
+    const apiKey = process.env.maps_api_key;
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${apiKey}`;
+    try{
+      const response = await axios.get(url);
+      if(response.data.status === "OK"){
+        return response.data.predictions;
+      } else {
+        throw new Error("Unable to fetch suggestions");
+      }
+
+    }catch(error){
+      console.log("Error:", error.message);
+      throw error;
+    }
+  }
