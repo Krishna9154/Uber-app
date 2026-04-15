@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 
 
 module.exports.getCoordinat =async(req,res,next)=>{
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -23,7 +24,6 @@ module.exports.getCoordinat =async(req,res,next)=>{
 
     
 }
-
 
 module.exports.getDistanceTime=async (req,res,next)=>{
 

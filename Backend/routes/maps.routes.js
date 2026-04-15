@@ -11,6 +11,7 @@ router.get('/get-coordinates',
     query('address').isString().isLength({min:3}),
     authmiddleware.authUser,
     mapscontroller.getCoordinat
+    
 );
 
 router.get('/get-distance-time',[
