@@ -68,8 +68,8 @@ module.exports.getDistanceTime = async (origin, destination) => {
       });
 
       const disTime = {
-        distance: response3.data.routes[0].distance / 1000,
-        time: response3.data.routes[0].duration / 60
+        distance: response3.data.routes[0].distance ,
+        time: response3.data.routes[0].duration
       }
       return disTime
 
