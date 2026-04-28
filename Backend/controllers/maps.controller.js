@@ -33,13 +33,13 @@ module.exports.getDistanceTime=async (req,res,next)=>{
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {origin, destination} = req.query;
+    const {Pickup, Destination} = req.query;
 
-    const distacnceTime = await mapsservice.getDistanceTime(origin, destination);
+    const distacnceTime = await mapsservice.getDistanceTime(Pickup, Destination);
     if(distacnceTime){
         res.json(distacnceTime);
     } else {
-        res.status(404).json({error:"Distance and time not found for the given origin and destination"});   
+        res.status(404).json({error:"Distance and time not found for the given Pickup and Destination"});   
 
     } }catch(err){
         console.log(err);
@@ -54,8 +54,8 @@ module.exports.getSuggestions=async (req,res,next)=>{
         if(!error.isEmpty()){
             return res.status(400).json({errors: error.array()})
         }
-        const {input} = req.query;
-        const suggestions = await mapsservice.getSuggestions(input);
+        const {Pickup} = req.query;
+        const suggestions = await mapsservice.getSuggestions(Pickup);
         res.json(suggestions);
     } catch (error) {
         console.log(error);

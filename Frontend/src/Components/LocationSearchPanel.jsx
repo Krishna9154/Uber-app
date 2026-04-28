@@ -11,13 +11,13 @@ const LocationSearchPanel = (props) => {
 
   return (
 
-    <div className=''>
+    <div className='mt-6'>
 
       {
         location.map((e,idx)=>{
           return  <div key={idx} onClick={()=>{props.setvechilePanelOpen(true)
             props.setPanelOpen(false)
-          }} className='flex flex-row items-center mb-4 border-2 border-white active:border-black p-2 rounded-xl'>
+          }} className='flex flex-row items-center mb-4  border-2 border-white active:border-black p-2 rounded-xl'>
           <h1 className='mr-4 bg-[#eeee] rounded-4xl h-8 w-12 flex justify-center items-center'><i className="ri-map-pin-fill text-lg"></i></h1>
             <h2>{e}</h2>
           </div>

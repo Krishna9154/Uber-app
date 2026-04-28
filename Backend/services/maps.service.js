@@ -27,16 +27,17 @@ module.exports.mapService = async (address) => {
   }
 }
 
-module.exports.getDistanceTime = async (origin, destination) => {
-  if (!origin || !destination) {
-    throw new Error("Origin and destination are required");
+module.exports.getDistanceTime = async (Pickup, Destination) => {
+  if (!Pickup || !Destination) {
+    throw new Error("Origin and Destination are required");
   }
+  console.log(Pickup, Destination);
   // const apiKey = process.env.maps_api_key;
-  // const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
+  // const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(Pickup)}&destinations=${encodeURIComponent(Destination)}&key=${apiKey}`;
 
   try {
 
-    const originRes = await axios.get(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(origin)}&format=json&limit=1`, {
+    const originRes = await axios.get(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(Pickup)}&format=json&limit=1`, {
       headers: {
         'User-Agent': 'Krishna-Uber-App/1.0 (krishna@email.com)', // IMPORTANT
         'Accept-Language': 'en'
@@ -44,7 +45,7 @@ module.exports.getDistanceTime = async (origin, destination) => {
       timeout: 5000
     });
 
-    const destinationRes = await axios.get(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(destination)}&format=json&limit=1`, {
+    const destinationRes = await axios.get(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(Destination)}&format=json&limit=1`, {
       headers: {
         'User-Agent': 'Krishna-Uber-App/1.0 (krishna@email.com)', // IMPORTANT
         'Accept-Language': 'en'
@@ -69,7 +70,17 @@ module.exports.getDistanceTime = async (origin, destination) => {
 
       const disTime = {
         distance: response3.data.routes[0].distance ,
-        time: response3.data.routes[0].duration
+        time: response3.data.routes[0].duration,
+        coOrdinates:{
+          Pickup: {
+            lat: LAT1,
+            lng: LON1
+          },
+          Destination: {
+            lat: LAT2,
+            lng: LON2
+          }
+        }
       }
       return disTime
 
@@ -83,15 +94,15 @@ module.exports.getDistanceTime = async (origin, destination) => {
   }
 }
 
-module.exports.getSuggestions = async (input) => {
-  if (!input) {
+module.exports.getSuggestions = async (Pickup) => {
+  if (!Pickup) {
     throw new Error("address is required");
   }
 
   // const apiKey = process.env.maps_api_key;
-  // const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${apiKey}`;
+  // const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?Pickup=${encodeURIComponent(Pickup)}&key=${apiKey}`;
   try {
-    const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${input}&format=json&limit=5`, {
+    const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${Pickup}&format=json&limit=5`, {
       headers: {
         'User-Agent': 'Krishna-Uber-App/1.0 (krishna@email.com)', // IMPORTANT
         'Accept-Language': 'en'
@@ -99,7 +110,7 @@ module.exports.getSuggestions = async (input) => {
       timeout: 5000
     });
     if (response.data.length > 0) {
-      return response.data;
+      return response.data || [];
     } else {
       throw new Error("Unable to fetch suggestions");
     }

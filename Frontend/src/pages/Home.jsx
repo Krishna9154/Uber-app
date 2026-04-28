@@ -9,6 +9,7 @@ import ConfirmRide from '../Components/ConfirmRide';
 import LookingForDriver from '../Components/LookingForDriver';
 import WaitingForDriver from '../Components/WaitingForDriver';
 import Maps from '../Components/Maps'
+import axios from 'axios';
 
 const Home = () => {
 
@@ -26,18 +27,39 @@ const Home = () => {
   const LookingForDriverRef = useRef(null)
   const watingForDriverRef = useRef(null)
 
-  const submithndlier = (e) => {
+  const submithndlier = async (e) => {
     e.preventDefault();
-
-
-
-
-    
-    // console.log(Pickup,Destination);
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-distance-time`, {
+      params: {
+        Pickup: Pickup,
+        Destination: Destination
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    // console.log(response.data.Destination);
     setPickup('')
     setDestination('')
-    
   }
+
+  useEffect(() => {
+    const getSuggession = async () => {
+      if (Pickup.length > 3) {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, {
+          params: {
+            Pickup: Pickup,
+            // Destination:Destination
+          },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        console.log(response.data[0].display_name);
+      }
+    }
+    getSuggession();
+  }, [Pickup])
 
   useGSAP(function () {
     if (panelOpen) {
@@ -114,7 +136,7 @@ const Home = () => {
 
 
   return (
-    <div className='h-screen w-screen relative'>
+    <div className='h-screen w-full relative overflow-hidden'>
 
       <div className="absolute inset-0 z-0 pointer-auto">
         <Maps />
@@ -123,8 +145,8 @@ const Home = () => {
       {/* <img className='h-full w-full ' src={bg} /> */}
       <img className='w-25 absolute top-2 left-2 ' src="https://download.logo.wine/logo/Uber/Uber-Logo.wine.png" />
 
-      <div className='flex flex-col justify-end top-0  w-full h-screen absolute pointer-events-none'>
-        <div className=' px-5   h-55 w-full bg-white  relative   rounded-2xl'>
+      <div className='flex flex-col justify-end top-0  w-full h-full absolute pointer-events-none'>
+        <div className=' px-5   h-50 w-full bg-white  relative   rounded-2xl'>
 
           <div className='  flex justify-between w-full relative mt-2 pointer-events-auto'><h4 className='text-xl font-medium'>Find a trip</h4><i ref={panelCloseRef} className="text-2xl 
           text-gray-400 ri-skip-down-line" onClick={() => { setPanelOpen(false) }}></i></div>
@@ -148,7 +170,7 @@ const Home = () => {
                 setPanelOpen(true)
               }} />
 
-            <button  className='text-lg text-center text-white bg-green-600 rounded w-full p-1 mt-4 '>Confirm</button>
+            <button className='text-lg text-center text-white bg-green-600 rounded w-full p-2 mt-4  '>Confirm</button>
 
           </form>
         </div>
