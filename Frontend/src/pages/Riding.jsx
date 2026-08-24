@@ -1,5 +1,5 @@
 import React from 'react'
-import bg from '../assets/TMkYp.png'
+import bg from '../assets/hero.png'
 import { Link } from 'react-router-dom'
 
 const Riding = () => {

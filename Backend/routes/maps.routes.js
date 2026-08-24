@@ -20,7 +20,8 @@ router.get('/get-distance-time',[
 ],authmiddleware.authUser, mapscontroller.getDistanceTime);
 
 router.get('/get-suggestions',[
-    query('Pickup').isString().isLength({min:3}),
+    query('Pickup').optional({ checkFalsy: true }).isString().isLength({min:1}),
+    query('Destination').optional({ checkFalsy: true }).isString().isLength({min:1})
 ],authmiddleware.authUser, mapscontroller.getSuggestions);  
 
 

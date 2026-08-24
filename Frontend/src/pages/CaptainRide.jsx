@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import bg from '../assets/TMkYp.png'
+import bg from '../assets/hero.png'
 import FinishRidePanel from '../Components/FinishRidePanel'
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap'

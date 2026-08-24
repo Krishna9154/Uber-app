@@ -94,7 +94,7 @@ module.exports.getDistanceTime = async (Pickup, Destination) => {
   }
 }
 
-module.exports.getSuggestions = async (Pickup) => {
+module.exports.getSuggestions = async (Pickup,Destination) => {
   if (!Pickup) {
     throw new Error("address is required");
   }
@@ -102,7 +102,7 @@ module.exports.getSuggestions = async (Pickup) => {
   // const apiKey = process.env.maps_api_key;
   // const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?Pickup=${encodeURIComponent(Pickup)}&key=${apiKey}`;
   try {
-    const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${Pickup}&format=json&limit=5`, {
+    const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${Pickup || Destination}&format=json&limit=5`, {
       headers: {
         'User-Agent': 'Krishna-Uber-App/1.0 (krishna@email.com)', // IMPORTANT
         'Accept-Language': 'en'
