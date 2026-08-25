@@ -31,7 +31,6 @@ module.exports.getDistanceTime = async (Pickup, Destination) => {
   if (!Pickup || !Destination) {
     throw new Error("Origin and Destination are required");
   }
-  console.log(Pickup, Destination);
   // const apiKey = process.env.maps_api_key;
   // const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(Pickup)}&destinations=${encodeURIComponent(Destination)}&key=${apiKey}`;
 
@@ -68,9 +67,20 @@ module.exports.getDistanceTime = async (Pickup, Destination) => {
         timeout: 5000
       });
 
+      
+
+
+
+      const distance =response3.data.routes[0].distance
+      const time =response3.data.routes[0].duration
+      const geometry =response3.data.routes[0].geometry
+      const data={distance,time}
+      const rideData  = calculateFare(data)
+
+
       const disTime = {
-        distance: response3.data.routes[0].distance ,
-        time: response3.data.routes[0].duration,
+        rideData,
+        geometry,
         coOrdinates:{
           Pickup: {
             lat: LAT1,
@@ -120,3 +130,66 @@ module.exports.getSuggestions = async (Pickup,Destination) => {
     throw error;
   }
 }
+
+
+function calculateFare(rideData) {
+  const { distance, time } = rideData; // distance in meters, time in seconds
+
+  // Convert to km and minutes
+  const distanceKm = distance / 1000;
+  const timeMinutes = time / 60;
+
+  // Vehicle-wise rate configuration (bike sabse sasta, phir auto, phir car)
+  const vehicleConfig = {
+    bike: {
+      baseFare: 20,
+      ratePerKm: 6,
+      ratePerMin: 0.8,
+      minimumFare: 30,
+      surgeMultiplier: 1
+    },
+    auto: {
+      baseFare: 30,
+      ratePerKm: 9,
+      ratePerMin: 1.1,
+      minimumFare: 50,
+      surgeMultiplier: 1
+    },
+    car: {
+      baseFare: 50,
+      ratePerKm: 12,
+      ratePerMin: 1.5,
+      minimumFare: 80,
+      surgeMultiplier: 1
+    }
+  };
+
+  // Helper function to calculate fare for a single vehicle type
+  function calculateVehicleFare(config) {
+    const distanceFare = distanceKm * config.ratePerKm;
+    const timeFare = timeMinutes * config.ratePerMin;
+
+    let totalFare = (config.baseFare + distanceFare + timeFare) * config.surgeMultiplier;
+    totalFare = Math.max(totalFare, config.minimumFare);
+
+    return {
+      baseFare: Number(config.baseFare.toFixed(2)),
+      distanceFare: Number(distanceFare.toFixed(2)),
+      timeFare: Number(timeFare.toFixed(2)),
+      surgeMultiplier: config.surgeMultiplier,
+      totalFare: Number(totalFare.toFixed(2))
+    };
+  }
+
+  // Calculate for all vehicle types
+  return {
+    distanceKm: Number(distanceKm.toFixed(2)),
+    timeMinutes: Number(timeMinutes.toFixed(2)),
+    bike: calculateVehicleFare(vehicleConfig.bike),
+    auto: calculateVehicleFare(vehicleConfig.auto),
+    car: calculateVehicleFare(vehicleConfig.car)
+  };
+}
+
+
+

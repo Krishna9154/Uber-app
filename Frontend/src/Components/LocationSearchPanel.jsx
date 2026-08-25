@@ -30,4 +30,4 @@ const LocationSearchPanel = ({Suggession , setPickup, setDestination,activeInput
   )
 } 
 
-export default LocationSearchPanel
+export default React.memo(LocationSearchPanel)

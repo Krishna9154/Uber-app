@@ -22,6 +22,7 @@ const Home = () => {
   const [watingForDriver, setwatingForDriver] = useState(false);
   const [Suggession, setSuggession] = useState([])
   const [activeInput, setActiveInput] = useState("");
+  const [ridedata, setridedata] = useState({})
   const panelRef = useRef(null)
   const panelCloseRef = useRef(null)
   const vehicalPannelRef = useRef(null)
@@ -41,7 +42,8 @@ const Home = () => {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
-    console.log(response.data);
+    // console.log(response.data);
+    setridedata(response.data)
     setPickup('')
     setDestination('')
 
@@ -156,7 +158,7 @@ const Home = () => {
     <div className='h-screen w-full relative overflow-hidden'>
 
       <div className="absolute inset-0 z-0 pointer-auto">
-        <Maps />
+        <Maps ridedata={ridedata}/>
       </div>
 
       {/* <img className='h-full w-full ' src={bg} /> */}
@@ -211,11 +213,11 @@ const Home = () => {
         </div>
 
         <div ref={vehicalPannelRef} className=' bg-white fixed z-10 w-full h-90 p-2 flex flex-col gap-2 translate-y-full pointer-events-auto'>
-          <VechilePanel setConfirmride={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} />
+          <VechilePanel setConfirmride={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} ridedata={ridedata} />
         </div>
 
         <div ref={ConfirmRideRef} className=' bg-white fixed z-10 w-full h-115 p-2 flex flex-col gap-2 translate-y-full pointer-events-auto '>
-          <ConfirmRide setConfirmride={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} setLookingForDriver={setLookingForDriver} />
+          <ConfirmRide setConfirmride={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} setLookingForDriver={setLookingForDriver} ridedata={ridedata}/>
         </div>
 
         <div ref={LookingForDriverRef} className=' bg-white fixed z-10 w-full h-100 p-2 flex flex-col gap-2 translate-y-full pointer-events-auto '>
