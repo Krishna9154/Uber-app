@@ -67,10 +67,6 @@ module.exports.getDistanceTime = async (Pickup, Destination) => {
         timeout: 5000
       });
 
-      
-
-
-
       const distance =response3.data.routes[0].distance
       const time =response3.data.routes[0].duration
       const geometry =response3.data.routes[0].geometry
@@ -79,6 +75,8 @@ module.exports.getDistanceTime = async (Pickup, Destination) => {
 
 
       const disTime = {
+        Pickup,
+        Destination,
         rideData,
         geometry,
         coOrdinates:{

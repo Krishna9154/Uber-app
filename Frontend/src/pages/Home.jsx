@@ -21,8 +21,9 @@ const Home = () => {
   const [LookingFordriver, setLookingForDriver] = useState(false);
   const [watingForDriver, setwatingForDriver] = useState(false);
   const [Suggession, setSuggession] = useState([])
-  const [activeInput, setActiveInput] = useState("");
-  const [ridedata, setridedata] = useState({})
+  const [activeInput, setActiveInput] = useState("");  // use for track the input
+  const [ridedata, setridedata] = useState({})        //use for store ride and route data
+  const [vechileType, setvechileType] = useState('')  // use for stateLifting
   const panelRef = useRef(null)
   const panelCloseRef = useRef(null)
   const vehicalPannelRef = useRef(null)
@@ -30,6 +31,8 @@ const Home = () => {
   const LookingForDriverRef = useRef(null)
   const watingForDriverRef = useRef(null)
   const firstRender = useRef(true)
+
+
 
   const submithndlier = async (e) => {
     e.preventDefault();
@@ -42,7 +45,6 @@ const Home = () => {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
-    // console.log(response.data);
     setridedata(response.data)
     setPickup('')
     setDestination('')
@@ -165,6 +167,7 @@ const Home = () => {
       <img className='w-25 absolute top-2 left-2 ' src="https://download.logo.wine/logo/Uber/Uber-Logo.wine.png" />
 
       <div className='flex flex-col justify-end top-0  w-full h-full absolute pointer-events-none'>
+
         <div className=' px-5   h-50 w-full bg-white  relative   rounded-2xl'>
 
           <div className='  flex justify-between w-full relative mt-2 pointer-events-auto'><h4 className='text-xl font-medium'>Find a trip</h4><i ref={panelCloseRef} className="text-2xl 
@@ -213,15 +216,15 @@ const Home = () => {
         </div>
 
         <div ref={vehicalPannelRef} className=' bg-white fixed z-10 w-full h-90 p-2 flex flex-col gap-2 translate-y-full pointer-events-auto'>
-          <VechilePanel setConfirmride={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} ridedata={ridedata} />
+          <VechilePanel setConfirmride={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} ridedata={ridedata} setvechileType={setvechileType} />
         </div>
 
         <div ref={ConfirmRideRef} className=' bg-white fixed z-10 w-full h-115 p-2 flex flex-col gap-2 translate-y-full pointer-events-auto '>
-          <ConfirmRide setConfirmride={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} setLookingForDriver={setLookingForDriver} ridedata={ridedata}/>
+          <ConfirmRide setConfirmride={setConfirmride} setvechilePanelOpen={setvechilePanelOpen} setLookingForDriver={setLookingForDriver} ridedata={ridedata} vechileType={vechileType}/>
         </div>
 
         <div ref={LookingForDriverRef} className=' bg-white fixed z-10 w-full h-100 p-2 flex flex-col gap-2 translate-y-full pointer-events-auto '>
-          <LookingForDriver setLookingForDriver={setLookingForDriver} />
+          <LookingForDriver setLookingForDriver={setLookingForDriver} ridedata={ridedata} vechileType={vechileType} />
         </div>
 
         <div ref={watingForDriverRef} className=' bg-white fixed z-10 w-full h-80 p-2 flex flex-col gap-2 translate-y-full pointer-events-auto'>
